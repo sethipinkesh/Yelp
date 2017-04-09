@@ -9,4 +9,6 @@ target 'Yelp' do
 pod 'AFNetworking', '~> 2.5'
 pod 'BDBOAuth1Manager'
 pod 'SevenSwitch', '~> 2.1'
+pod 'MBProgressHUD'
+
 end

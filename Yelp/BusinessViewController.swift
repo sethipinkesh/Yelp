@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BusinessViewController: UIViewController, FilterViewControllerDelegate {
 
@@ -14,7 +15,8 @@ class BusinessViewController: UIViewController, FilterViewControllerDelegate {
     @IBOutlet weak var businessTableView: UITableView!
     var businesses: [Business]!
     var filterdBusinessList = [Business]()
-    
+    var isMoreDataToLoad = false
+    var offset = 10;
     var searchBar = UISearchBar(frame: CGRect(x:0, y:0, width:180, height:20))
     
     override func viewDidLoad() {
@@ -31,9 +33,12 @@ class BusinessViewController: UIViewController, FilterViewControllerDelegate {
         searchBar.resignFirstResponder()
         searchBar.keyboardType = UIKeyboardType.alphabet
         
+//        self.navigationController?.navigationBar.barTintColor = UIColor.red
+//        self.navigationController.navigationBar.tintColor = UIColor .red
+//        self.navigationController?.navigationBar.isTranslucent = false
         
         // Do any additional setup after loading the view, typically from a nib.
-        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(term: "Restaurents",offset:offset, completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             self.businesses = businesses
             
@@ -66,7 +71,7 @@ class BusinessViewController: UIViewController, FilterViewControllerDelegate {
         let radius = filters["radius"] as? Int
         let sort = filters["sort"] as? YelpSortMode
         
-        Business.searchWithTerm(term: "Restaurents", sort: sort, radius: radius, categories: categories, deals: deals, completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(term: "Restaurents", offset:offset, sort: sort, radius: radius, categories: categories, deals: deals, completion: { (businesses: [Business]?, error: Error?) -> Void in
             self.businesses = businesses
             self.filterdBusinessList = self.businesses
             self.businessTableView.reloadData()
@@ -115,4 +120,35 @@ extension BusinessViewController: UISearchBarDelegate{
         searchBar.resignFirstResponder()
     }
 
+}
+extension BusinessViewController: UIScrollViewDelegate{
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if(!isMoreDataToLoad){
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = businessTableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - businessTableView.bounds.size.height
+        
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && businessTableView.isDragging) {
+                isMoreDataToLoad = true
+                loadMoreData()
+            // ... Code to load more results ...
+            }
+        }
+        
+    }
+    
+    func loadMoreData() {
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        offset += 10
+        Business.searchWithTerm(term: "Restaurents",offset:offset, completion: { (businesses: [Business]?, error: Error?) -> Void in
+            self.businesses = businesses
+            self.filterdBusinessList = self.businesses
+            self.businessTableView.reloadData()
+            self.isMoreDataToLoad = false
+            MBProgressHUD.hide(for: self.view, animated: true)
+
+        })
+    }
 }
