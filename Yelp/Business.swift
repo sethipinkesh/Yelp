@@ -8,6 +8,7 @@
 
 
 import UIKit
+import MapKit
 
 class Business: NSObject {
     let name: String?
@@ -17,6 +18,7 @@ class Business: NSObject {
     let distance: String?
     let ratingImageURL: URL?
     let reviewCount: NSNumber?
+    let coordinate: CLLocationCoordinate2D?
     
     init(dictionary: NSDictionary) {
         name = dictionary["name"] as? String
@@ -71,6 +73,18 @@ class Business: NSObject {
             ratingImageURL = URL(string: ratingImageURLString!)
         } else {
             ratingImageURL = nil
+        }
+        
+        //safely using optional chaining to add coordinates
+        if let loca = dictionary["location"] as? NSDictionary,
+            let coordinates = loca["coordinate"] as? NSDictionary,
+            let lat = coordinates["latitude"] as? CLLocationDegrees,
+            let long =  coordinates["longitude"] as? CLLocationDegrees {
+            
+            coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        } else {
+            
+            coordinate = nil
         }
         
         reviewCount = dictionary["review_count"] as? NSNumber

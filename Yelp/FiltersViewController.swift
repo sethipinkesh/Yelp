@@ -162,7 +162,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource{
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "FilterSwitchCell") as! FilterSwitchCell
             if(!categorySectionExapanded && indexPath.row == 4){
-                cell.categoryNameLabel.text = "More"
+                cell.categoryNameLabel.text = "Tap for more"
                 cell.categorySwitch.isHidden = true
             }else{
                 cell.categoryNameLabel.text = categories[indexPath.row]["name"]
@@ -176,6 +176,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.section{
         case 1:
             if(distanceSectionExpanded){

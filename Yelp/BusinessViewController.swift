@@ -32,7 +32,7 @@ class BusinessViewController: UIViewController, FilterViewControllerDelegate {
         searchBar.delegate = self
         searchBar.resignFirstResponder()
         searchBar.keyboardType = UIKeyboardType.alphabet
-        
+        MBProgressHUD.showAdded(to: self.view, animated: true)
 //        self.navigationController?.navigationBar.barTintColor = UIColor.red
 //        self.navigationController.navigationBar.tintColor = UIColor .red
 //        self.navigationController?.navigationBar.isTranslucent = false
@@ -50,15 +50,23 @@ class BusinessViewController: UIViewController, FilterViewControllerDelegate {
                     print(business.address!)
                 }
             }
-            
+            MBProgressHUD.hide(for: self.view, animated: true)
         }
         )
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let navigationController = segue.destination as! UINavigationController
-        let filterViewControler = navigationController.topViewController as! FiltersViewController
-        filterViewControler.deleagte = self;
+        if(segue.identifier == "filterSegue"){
+            let navigationController = segue.destination as! UINavigationController
+            let filterViewControler = navigationController.topViewController as! FiltersViewController
+            filterViewControler.deleagte = self;
+        }
+        if(segue.identifier == "detailsSegue"){
+            let businessDetailControler = segue.destination as! BusinessDetailViewController
+            let cell = sender as! UITableViewCell
+            let indexPath = businessTableView.indexPath(for: cell)
+            businessDetailControler.business = filterdBusinessList[(indexPath?.row)!]
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -90,6 +98,10 @@ extension BusinessViewController: UITableViewDataSource, UITableViewDelegate{
         let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessTableCell", for: indexPath) as! BusinessTableCell
         cell.business = filterdBusinessList[indexPath.row]
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
