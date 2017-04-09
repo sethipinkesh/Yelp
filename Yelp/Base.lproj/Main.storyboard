@@ -129,7 +129,7 @@
                                 <segue destination="OQL-dU-KWp" kind="modal" identifier="filterSegue" id="vxN-A2-X1P"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Map" id="Zbb-5r-2gH">
+                        <barButtonItem key="rightBarButtonItem" image="map_ic" id="Zbb-5r-2gH">
                             <connections>
                                 <segue destination="CU5-7G-AXc" kind="push" identifier="mapSegue" id="p29-BF-Ral"/>
                             </connections>
@@ -417,5 +417,6 @@
     </scenes>
     <resources>
         <image name="filter_ic" width="24" height="24"/>
+        <image name="map_ic" width="24" height="24"/>
     </resources>
 </document>

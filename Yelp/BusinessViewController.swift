@@ -38,7 +38,7 @@ class BusinessViewController: UIViewController, FilterViewControllerDelegate {
 //        self.navigationController?.navigationBar.isTranslucent = false
         
         // Do any additional setup after loading the view, typically from a nib.
-        filterdBusinessList = businesses
+
         Business.searchWithTerm(term: "Restaurents",offset:offset, completion: { (businesses: [Business]?, error: Error?) -> Void in
             if(error == nil){
                 self.businesses = businesses
