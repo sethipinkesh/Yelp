@@ -38,21 +38,24 @@ class BusinessViewController: UIViewController, FilterViewControllerDelegate {
 //        self.navigationController?.navigationBar.isTranslucent = false
         
         // Do any additional setup after loading the view, typically from a nib.
+        filterdBusinessList = businesses
         Business.searchWithTerm(term: "Restaurents",offset:offset, completion: { (businesses: [Business]?, error: Error?) -> Void in
+            if(error == nil){
+                self.businesses = businesses
             
-            self.businesses = businesses
-            
-            self.filterdBusinessList = self.businesses
-            self.businessTableView.reloadData()
-            if let businesses = businesses {
-                for business in businesses {
-                    print(business.name!)
-                    print(business.address!)
+                self.filterdBusinessList = self.businesses
+                self.businessTableView.reloadData()
+                if let businesses = businesses {
+                    for business in businesses {
+                        print(business.name!)
+                        print(business.address!)
+                    }
                 }
+                MBProgressHUD.hide(for: self.view, animated: true)
+            }else{
+                MBProgressHUD.hide(for: self.view, animated: true)
             }
-            MBProgressHUD.hide(for: self.view, animated: true)
-        }
-        )
+        })
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -66,6 +69,10 @@ class BusinessViewController: UIViewController, FilterViewControllerDelegate {
             let cell = sender as! UITableViewCell
             let indexPath = businessTableView.indexPath(for: cell)
             businessDetailControler.business = filterdBusinessList[(indexPath?.row)!]
+        }
+        if(segue.identifier == "mapSegue"){
+            let businessMapControler = segue.destination as! BusinessMapViewController
+            businessMapControler.businesses = filterdBusinessList
         }
     }
     override func didReceiveMemoryWarning() {

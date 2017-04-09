@@ -129,6 +129,11 @@
                                 <segue destination="OQL-dU-KWp" kind="modal" identifier="filterSegue" id="vxN-A2-X1P"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="Zbb-5r-2gH">
+                            <connections>
+                                <segue destination="CU5-7G-AXc" kind="push" identifier="mapSegue" id="p29-BF-Ral"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="businessTableView" destination="4m0-E1-8PR" id="HpL-EG-kXR"/>
@@ -339,6 +344,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aX7-9e-lZ3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1856.8" y="-672.41379310344837"/>
+        </scene>
+        <!--Business Map View Controller-->
+        <scene sceneID="5bk-bt-lO8">
+            <objects>
+                <viewController id="CU5-7G-AXc" customClass="BusinessMapViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="L79-1m-IeB"/>
+                        <viewControllerLayoutGuide type="bottom" id="zyg-Ru-vlg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ho9-vx-v9H">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="CUH-OM-iAt">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="CUH-OM-iAt" secondAttribute="trailing" id="5ax-4d-Za3"/>
+                            <constraint firstItem="CUH-OM-iAt" firstAttribute="top" secondItem="L79-1m-IeB" secondAttribute="bottom" id="7lN-jL-tA3"/>
+                            <constraint firstItem="CUH-OM-iAt" firstAttribute="leading" secondItem="Ho9-vx-v9H" secondAttribute="leading" id="ayO-Ye-lz9"/>
+                            <constraint firstItem="zyg-Ru-vlg" firstAttribute="top" secondItem="CUH-OM-iAt" secondAttribute="bottom" id="nAE-eT-OKP"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="fKk-lr-7kV"/>
+                    <connections>
+                        <outlet property="businessResultMapView" destination="CUH-OM-iAt" id="Qqn-fM-df7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KXz-I2-JfW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2588" y="-628.33583208395805"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ul7-OZ-JwX">
